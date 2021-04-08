@@ -16,6 +16,7 @@ io.on('connection', (socket) => {
   socket.on('username', (payload) => {
     const time = timeStamp()
     console.log(`Welcome ${payload.username}! Joined at: ${time} `)
+    socket.broadcast.emit('joining', payload.username)
     users.push(payload)
     console.log(users)
   })
@@ -34,7 +35,7 @@ io.on('connection', (socket) => {
       if (users[i].id === socket.id) {
         console.log(`${users[i].username} has left the chat at: ${time}`)
         socket.broadcast.emit('leaving', users[i])
-        delete users[i]
+        // delete users[i]
         console.log(users)
       }
     }
